@@ -3,105 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>사이트 주소 목록</title>
+    <title>도티사이트</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
         }
         h1 {
             color: #333;
         }
-        h2 {
-            color: #555;
-            margin-top: 20px;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            background: #fff;
-            margin: 5px 0;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        a {
-            text-decoration: none;
-            color: #007bff;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .description {
-            margin-top: 20px;
-            font-size: 14px;
+        p {
             color: #666;
+        }
+        .button-container {
+            display: flex;
+            flex-wrap: wrap; /* 버튼을 여러 줄로 배치 */
+            max-width: 1500px; /* 최대 너비 설정 */
+            margin-bottom: 20px; /* 각 버튼 그룹 사이의 여백 */
+        }
+        button {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            padding: 15px; /* 버튼 패딩 증가 */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px; /* 버튼 간의 간격 */
+            flex: 1 0 calc(20% - 10px); /* 버튼의 너비를 20%로 설정하고 여백 고려 */
+            min-width: 120px; /* 버튼의 최소 너비 지정 */
+        }
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
-
-    <h1>유튜브 주소 (YouTube Links)</h1>
-    <ul>
-        <li><a href="https://www.youtube.com/channel/UChQ-VMvdGrYZxviQVMTJOHg" target="_blank">도티 유튜브</a></li>
-        <li><a href="https://www.youtube.com/@%EB%9D%BC%EB%94%94%EC%9C%A0" target="_blank">라디유 유튜브</a></li>
-        <li><a href="https://www.youtube.com/@Y%EB%85%B8%ED%8A%B8" target="_blank">Y노트 유튜브</a></li>
-    </ul>
-
-    <h2>여행 사이트 (Travel Sites)</h2>
-    <ul>
-        <li><a href="#" onclick="return false;" style="color: #999; cursor: not-allowed;">여행 사이트 1</a></li>
-        <li><a href="#" onclick="return false;" style="color: #999; cursor: not-allowed;">여행 사이트 2</a></li>
-    </ul>
-
-    <h2>맛집 사이트 (Restaurant Sites)</h2>
-    <ul>
-        <li><a href="#" onclick="return false;" style="color: #999; cursor: not-allowed;">맛집 사이트 1</a></li>
-        <li><a href="#" onclick="return false;" style="color: #999; cursor: not-allowed;">맛집 사이트 2</a></li>
-    </ul>
+    <h1>도티님은 없지만 도티사이트에 오신걸 환영합니다!</h1>
+    <p>개발자가 GPT의 도움을 받아 비영리 및 사비로 개발된 사이트입니다</p>
+	<p>그렇기에 광고가 없는 깔끔한 사이트로 탄생되었습니다</p>
+	<p>도티님에게 해가되지 않게 약속드립니다 [영원히 비영리로 운영할 생각이며 수익도 받지않을 생각입니다]</p>
+	<p>문의는 디스코드 : nodamanote</p>
+	<p>여기로 친추부탁드립니다</p>
+	<p>만약에 도티님이 사이트 삭제해달라고 요청이 올시 삭제하겠습니다</p>
+	<p>저희 사이트는 어떠한 광고나 홍보를 해드리지 않습니다 하지만 유튜브 채널등록은 도와드립니다</p>
 	
-    <h2>인천 및 충청남도 숙박 사이트 (Accommodation Sites in Incheon and Chungcheongnam-do)</h2>
-    <ul>
-        <li><a href="#" onclick="return false;" style="color: #999; cursor: not-allowed;">숙박 사이트 1</a></li>
-        <li><a href="#" onclick="return false;" style="color: #999; cursor: not-allowed;">숙박 사이트 2</a></li>
-    </ul>
-	
-	<h2>개발자가 자주하는 온라인 게임 (Popular Online Games Among Developers)</h2>
-    <ul>
-        <li><a href="#" onclick="return false;" style="color: #999; cursor: not-allowed;">원신</a></li>
-        <li><a href="#" onclick="return false;" style="color: #999; cursor: not-allowed;">스타크래프트</a></li>
-    </ul>
+    <h3>사이트</h3>
+    <p>사이트를 쉽게 접근할수있습니다</p>
+    
+    <div class="button-container">
+        <button onclick="window.location.href='https://www.naver.com/';">네이버</button>
+        <button onclick="window.location.href='https://www.daum.net/';">다음</button>
+        <button onclick="window.location.href='https://www.google.com/';">구글</button>
+        <button onclick="window.location.href='https://namu.wiki/';">나무위키</button>
+        <button onclick="window.location.href='https://www.youtube.com/';">유튜브</button>
+    </div>
 
-    <div class="description">
-        <p>이 사이트는 분명히 말씀드리지만 유튜버분들이 활성화되길 바라며 등록된 사이트입니다</p>
-        <p>나도 이 사이트의 도메인이 등록되길 바란다면</p>
-        <p>문의는 디스코드 : nodamanote 여기로 친추주세요</p>
-        <p>참고로 쇼츠유튜버는 받지않습니다</p>
-        <p>현재까지는 비영리로 운영중입니다</p>
-        <p>-</p>
-        <p>-</p>
-        <p>이사이트가 유명해진다면 기능을 더 추가하려고 노력해보겠습니다</p>
-        <p>-</p>
-        <p>디스코드의 forgeban 이라는 유저 조심하세요</p>
-        <p>마인크래프트 서버의 악성테러범 이라고 합니다</p>
-        <p>디스코드 uid 남깁니다 : 884700479597199360</p>
-        <p>-</p>
-        <p>이 개발자는 위에 forgeban 이라는 악성테러범때문에</p>
-        <p>마인크래프트의 활동을 접은상태입니다</p>
-        <p>화이트해커분이나 해커분들이 이 개발자를 도와주세요</p>
-        <p>-</p>
-        <p>-</p>
-        <p>-</p>
-        <p>-</p>
-        <p>-</p>
-        <p>-</p>
-        <p>-</p>
+    <h3>유튜브 채널</h3>
+    <p>여기서는 유튜브 채널 입니다</p>
+
+    <div class="button-container">
+        <button onclick="window.location.href='https://www.youtube.com/@DottyTV';">도티 유튜브</button>
+        <button onclick="window.location.href='https://www.youtube.com/channel/UCrqhPgTWDR1lM7hAhcuU-7w';">윤노트</button>
+    </div>
+
+    <h3>숙박 및 여행 사이트</h3>
+    <p>숙박 및 여행에 관련된 사이트입니다.</p>
+
+    <div class="button-container">
+        <button onclick="window.location.href='https://www.example11.com';">준비중</button>
+        <button onclick="window.location.href='https://www.example12.com';">준비중 2</button>
+        <button onclick="window.location.href='https://www.example13.com';">준비중 3</button>
+        <button onclick="window.location.href='https://www.example14.com';">준비중 4</button>
+        <button onclick="window.location.href='https://www.example15.com';">준비중 5</button>
+    </div>
+
+    <h3>게임 사이트</h3>
+    <p>게임에 관련된 사이트입니다</p>
+    <p>개발자는 타워오브판타지 라는게임에 자주 접속합니다</p>
+
+    <div class="button-container">
+        <button onclick="window.location.href='https://genshin.hoyoverse.com/';">원신 사이트 접속</button>
+        <button onclick="window.location.href='https://tof.pwrd.co.kr/';">타워오브판타지 사이트 접속</button>
+        <button onclick="window.location.href='https://wutheringwaves.kurogames.com/kr/main';">명조 사이트 접속</button>
+    </div>
+
+    <h3>현재 준비중인 게임 사이트 [사전예약 및 예약]</h3>
+    <p>사전예약이나 예약을 할수있는 사이트입니다</p>
+
+    <div class="button-container">
+        <button onclick="window.location.href='https://www.anantagame.com/kr/';">무한대 예약</button>
+        <button onclick="window.location.href='https://nte.perfectworld.com/kr/index.html';">이환 예약</button>
     </div>
 
 </body>
 </html>
-
-
