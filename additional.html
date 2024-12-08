@@ -61,7 +61,6 @@
                 alarmTime = alarmDate;
                 alarmTimeout = setTimeout(() => {
                     document.getElementById('alarmSound').play(); // 알람 소리 재생
-                    alert('알람이 울립니다! 시간: ' + alarmTime.toLocaleTimeString('ko-KR'));
                 }, timeDifference);
                 alert('알람이 설정되었습니다: ' + alarmTime.toLocaleTimeString('ko-KR'));
             } else {
