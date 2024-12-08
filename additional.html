@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>현재 한국 시간</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+        .time-display {
+            margin: 20px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function updateTime() {
+            // 현재 한국 시간 가져오기
+            const now = new Date();
+            const options = {
+                timeZone: 'Asia/Seoul',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            const koreaTime = now.toLocaleTimeString('ko-KR', options);
+            document.getElementById('timeDisplay').textContent = "현재 한국 시간: " + koreaTime;
+        }
+
+        // 페이지 로드 후 1초마다 updateTime 함수 호출
+        setInterval(updateTime, 1000);
+    </script>
+</head>
+<body>
+    <h1>한국 실시간 시간</h1>
+    <p>광고가 있는 실시간시간 싫어하시죠?? 여기를 사용하세요</p>
+
+    <div id="timeDisplay" class="time-display">시간이 표시됩니다.</div>
+
+    <h3>페이지 이동</h3>
+    <p><a href="index.html">메인 페이지로 돌아가기</a></p>
+</body>
+</html>
