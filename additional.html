@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>한국시간</title>
+    <title>추가 페이지</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,14 +19,19 @@
         }
         .time-display {
             margin: 20px 0;
-            font-size: 60px; /* 시간의 크기를 더 크게 설정 */
+            font-size: 36px; /* 시간의 크기를 더 크게 설정 */
             font-weight: bold;
             color: #333; /* 색상 설정 */
         }
+        .alarm-container {
+            margin-top: 40px;
+        }
     </style>
     <script>
+        let alarmTime; // 알람 시간을 저장할 변수
+        let alarmTimeout; // timeout ID
+
         function updateTime() {
-            // 현재 한국 시간 가져오기
             const now = new Date();
             const options = {
                 timeZone: 'Asia/Seoul',
@@ -41,15 +46,53 @@
 
         // 페이지 로드 후 1초마다 updateTime 함수 호출
         setInterval(updateTime, 1000);
+
+        function setAlarm() {
+            const alarmInput = document.getElementById('alarmInput').value;
+            const currentTime = new Date();
+            const alarmDate = new Date(currentTime);
+            const [hours, minutes] = alarmInput.split(':');
+            alarmDate.setHours(hours);
+            alarmDate.setMinutes(minutes);
+            alarmDate.setSeconds(0);
+
+            const timeDifference = alarmDate.getTime() - currentTime.getTime();
+            if (timeDifference > 0) {
+                alarmTime = alarmDate;
+                alarmTimeout = setTimeout(() => {
+                    document.getElementById('alarmSound').play(); // 알람 소리 재생
+                    alert('알람이 울립니다! 시간: ' + alarmTime.toLocaleTimeString('ko-KR'));
+                }, timeDifference);
+                alert('알람이 설정되었습니다: ' + alarmTime.toLocaleTimeString('ko-KR'));
+            } else {
+                alert('현재 시간보다 늦은 시간으로 설정해 주세요.');
+            }
+        }
+
+        function clearAlarm() {
+            clearTimeout(alarmTimeout);
+            alert('알람이 취소되었습니다.');
+        }
     </script>
 </head>
 <body>
-    <h1>한국 실시간 시간</h1>
-    <p>광고없는 한국 실시간 시간을 확인하세요</p>
+    <h1>추가 페이지</h1>
+    <p>현재 실시간 한국 시간을 아래에서 확인하세요.</p>
 
     <div id="timeDisplay" class="time-display">시간이 표시됩니다.</div>
 
+    <div class="alarm-container">
+        <h3>알람 설정하기</h3>
+        <input type="time" id="alarmInput" />
+        <button onclick="setAlarm()">알람 설정</button>
+        <button onclick="clearAlarm()">알람 취소</button>
+        
+        <!-- 알람 소리 추가 (wav, mp3 등 형식 가능) -->
+        <audio id="alarmSound" src="alarm-sound.mp3" preload="auto"></audio>
+    </div>
+
     <h3>페이지 이동</h3>
     <p><a href="index.html">메인 페이지로 돌아가기</a></p>
+    <p><a href="map.html">세계지도 페이지로 가기</a></p>
 </body>
 </html>
