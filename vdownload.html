@@ -9,7 +9,7 @@
             const url = document.getElementById('video-url').value;
             const quality = document.getElementById('video-quality').value; // 품질 옵션 선택
             const referer = document.getElementById('video-referer').value; // 리퍼러 옵션 선택
-            const response = await fetch('http://localhost:5000/download', { // 로컬 Flask 서버의 URL
+            const response = await fetch('http://mc0.kr:5000/download', { // 로컬 Flask 서버의 URL
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
