@@ -7,6 +7,7 @@
     <script>
         async function downloadVideo() {
             const videoId = document.getElementById('video-id').value; // 비디오 ID 입력
+            const useReferer = document.getElementById('use-referer').checked; // 레퍼러 사용 여부
             const referer = document.getElementById('video-referer').value; // 레퍼러 입력
 
             const response = await fetch('http://mc0.kr:5000/download', {
@@ -14,7 +15,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ video_id: videoId, referer }), // 비디오 ID와 레퍼러 URL 함께 전송
+                body: JSON.stringify({ video_id: videoId, use_referer: useReferer, referer }), // 비디오 ID, 레퍼러 사용 여부, 레퍼러 URL 전송
             });
 
             const result = await response.json();
@@ -22,7 +23,7 @@
 
             if (result.message) {
                 // 다운로드 URL 생성 (비디오 ID로 파일명 생성)
-                const downloadLink = `http://mc0.kr:5000/files/${videoId}.mp4`;
+                const downloadLink = `http://mc0.kr:5000/files/${result.file}`;
                 downloadLinkContainer.innerHTML = `다운로드 링크: <a href="${downloadLink}" target="_blank">${downloadLink}</a>`;
             } else {
                 downloadLinkContainer.innerHTML = `오류: ${result.error}`;
@@ -33,7 +34,10 @@
 <body>
     <h1>비디오 다운로드 시스템</h1>
     <input type="text" id="video-id" placeholder="숫자 ID 입력" />  <!-- 비디오 ID 입력 필드 -->
+    <br>
+    <input type="checkbox" id="use-referer"> 리퍼러 사용  <!-- 레퍼러 사용 여부 체크박스 -->
     <input type="text" id="video-referer" placeholder="리퍼러 URL 입력" /> <!-- 리퍼러 입력 필드 -->
+    <br>
     <button onclick="downloadVideo()">다운로드</button>
     <div id="download-link-container" style="margin-top: 20px;"></div> <!-- 다운로드 링크를 표시할 영역 -->
 </body>
