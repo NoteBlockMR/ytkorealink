@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vimeo 다운로드 시스템</title>
+    <script>
+        async function downloadVideo() {
+            const url = document.getElementById('video-url').value;
+            const response = await fetch('http://mc0.kr:5000/download', { // 로컬 Flask 서버의 URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ url }),
+            });
+
+            const result = await response.json();
+            alert(result.message || result.error);
+        }
+    </script>
+</head>
+<body>
+    <h1>Vimeo 다운로드 시스템</h1>
+    <input type="text" id="video-url" placeholder="비디오 URL 입력" />
+    <button onclick="downloadVideo()">다운로드</button>
+</body>
+</html>
