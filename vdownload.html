@@ -8,12 +8,13 @@
         async function downloadVideo() {
             const url = document.getElementById('video-url').value;
             const quality = document.getElementById('video-quality').value; // 품질 옵션 선택
-            const response = await fetch('http://mc0.kr:5000/download', { // 로컬 Flask 서버의 URL
+            const referer = document.getElementById('video-referer').value; // 리퍼러 옵션 선택
+            const response = await fetch('http://localhost:5000/download', { // 로컬 Flask 서버의 URL
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ url, quality }), // URL과 품질 함께 전송
+                body: JSON.stringify({ url, quality, referer }), // URL, 품질, 리퍼러 함께 전송
             });
 
             const result = await response.json();
@@ -29,6 +30,7 @@
         <option value="worst">최저 품질</option>
         <option value="bestaudio">오디오만 다운로드</option>
     </select>
+    <input type="text" id="video-referer" placeholder="리퍼러 URL 입력" /> <!-- 리퍼러 입력 필드 추가 -->
     <button onclick="downloadVideo()">다운로드</button>
 </body>
 </html>
