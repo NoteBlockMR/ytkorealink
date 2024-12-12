@@ -18,12 +18,14 @@
             });
 
             const result = await response.json();
+            const downloadLinkContainer = document.getElementById('download-link-container');
+
             if (result.message) {
                 // 다운로드 URL 생성 (비디오 ID로 파일명 생성)
                 const downloadLink = `http://mc0.kr:5000/files/${videoId}.mp4`;
-                alert(result.message + "\n다운로드 링크: " + downloadLink);
+                downloadLinkContainer.innerHTML = `다운로드 링크: <a href="${downloadLink}" target="_blank">${downloadLink}</a>`;
             } else {
-                alert(result.error);
+                downloadLinkContainer.innerHTML = `오류: ${result.error}`;
             }
         }
     </script>
@@ -33,5 +35,6 @@
     <input type="text" id="video-id" placeholder="숫자 ID 입력" />  <!-- 비디오 ID 입력 필드 -->
     <input type="text" id="video-referer" placeholder="리퍼러 URL 입력" /> <!-- 리퍼러 입력 필드 -->
     <button onclick="downloadVideo()">다운로드</button>
+    <div id="download-link-container" style="margin-top: 20px;"></div> <!-- 다운로드 링크를 표시할 영역 -->
 </body>
 </html>
