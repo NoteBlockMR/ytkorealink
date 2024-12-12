@@ -9,7 +9,7 @@
             const videoId = document.getElementById('video-id').value; // 비디오 ID 입력
             const referer = document.getElementById('video-referer').value; // 레퍼러 입력
 
-            const response = await fetch('http://mc0.kr:5000/download', {
+            const response = await fetch('http://localhost:5000/download', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -18,7 +18,13 @@
             });
 
             const result = await response.json();
-            alert(result.message || result.error);
+            if (result.message) {
+                // 다운로드 URL 생성 (비디오 ID로 파일명 생성)
+                const downloadLink = `http://localhost:5000/files/${videoId}.mp4`;
+                alert(result.message + "\n다운로드 링크: " + downloadLink);
+            } else {
+                alert(result.error);
+            }
         }
     </script>
 </head>
