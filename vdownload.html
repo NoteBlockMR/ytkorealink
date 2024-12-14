@@ -3,77 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>비디오 다운로드 시스템</title>
+    <title>비디오 다운로드 인증</title>
     <script>
-        async function downloadVideo(isVimeo) {
-            const downloadButton = document.getElementById(isVimeo ? 'download-button' : 'download-button-2');
-            const videoId = isVimeo ? document.getElementById('video-id').value : '';
-            const videoUrl = isVimeo ? '' : document.getElementById('video-url').value; // 비디오 URL 입력
-            const useReferer = document.getElementById('use-referer').checked;
-            const referer = document.getElementById('video-referer').value;
-            const downloadLinkContainer = document.getElementById('download-link-container');
+        async function authenticate() {
+            const password = document.getElementById('password').value; // 패스워드 입력 필드
 
-            // 버튼 비활성화
-            downloadButton.disabled = true;
-            downloadLinkContainer.innerHTML = "다운로드 중... 잠시 기다려 주세요.";
+            // 외부 인증 서버 URL (로컬 서버일 경우)
+            const authServerUrl = 'http://mc0.kr:5000/authenticate'; // 실제 인증 서버의 URL로 대체하십시오.
 
-            try {
-                const response = await fetch('http://mc0.kr:5000/download', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ 
-                        video_id: videoId, 
-                        video_url: videoUrl, 
-                        use_referer: useReferer, 
-                        referer 
-                    }),
-                });
+            const response = await fetch(authServerUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',  // JSON 형태로 전송
+                },
+                body: JSON.stringify({ password }) // 패스워드를 JSON으로 변환하여 전송
+            });
 
-                const result = await response.json();
-
-                if (result.message) {
-                    // 다운로드 성공 메시지와 링크 표시
-                    const downloadLink = `http://mc0.kr:5000/files/${result.file}`;
-                    downloadLinkContainer.innerHTML = `다운로드 완료! <a href="${downloadLink}" target="_blank">여기서 파일 다운로드</a>`;
-                } else {
-                    downloadLinkContainer.innerHTML = `오류: ${result.error}`;
-                }
-
-            } catch (error) {
-                downloadLinkContainer.innerHTML = "다운로드 실패: " + error.message; // 연결 오류 시 메시지
-            } finally {
-                // 버튼 활성화
-                downloadButton.disabled = false; // 다운로드 후 버튼 활성화
+            const result = await response.json();
+            if (result.message) {
+                // 인증 성공 시 다운로드 페이지로 리디렉션
+                window.location.href = '/download_page.html';
+            } else {
+                document.getElementById('auth-message').innerHTML = result.error;
             }
         }
     </script>
 </head>
 <body>
     <h1>비디오 다운로드 시스템</h1>
-    <h3>부탁인데 제발 성인영상 다운받지마세요 아이피로그 다 남아요..</h3>
-    <h3>성인영상다운받아서 경찰서에 전화오면 아이피로그 그대로 넘길껍니다</h3>
-    <h3>1개의 다운로드 용량이 200mb가 넘을경우 다운로드가 차단됩니다</h3>
-    <h3>비영리로 운영중인데 성인영상 다운받는다는 생각이 잘못된겁니다</h3>
-
-
-    <!-- Vimeo 비디오 ID 입력 -->
-    <h2>Vimeo 비디오 다운로드</h2>
-    <input type="text" id="video-id" placeholder="숫자 ID 입력" />  <!-- 비디오 ID 입력 필드 -->
-    <input type="checkbox" id="use-referer"> 리퍼러 사용  <!-- 리퍼러 사용 여부 체크박스 -->
-    <input type="text" id="video-referer" placeholder="리퍼러 URL 입력" /> <!-- 리퍼러 입력 필드 -->
-    <button id="download-button" onclick="downloadVideo(true)">다운로드 (Vimeo)</button>
-    
-    <br><br>
-
-    <!-- 다른 사이트 비디오 URL 입력 -->
-    <h2>다른 사이트 비디오 다운로드</h2>
-    <input type="text" id="video-url" placeholder="비디오 URL 입력" /> <!-- YouTube URL 또는 기타 비디오 URL 입력 필드 -->
-    <input type="checkbox" id="use-referer-2"> 리퍼러 사용  <!-- 리퍼러 사용 여부 체크박스 -->
-    <input type="text" id="video-referer-2" placeholder="리퍼러 URL 입력" /> <!-- 리퍼러 입력 필드 -->
-    <button id="download-button-2" onclick="downloadVideo(false)">다운로드 (다른 사이트)</button>
-
-    <div id="download-link-container" style="margin-top: 20px;"></div> <!-- 다운로드 링크를 표시할 영역 -->
+    <input type="password" id="password" placeholder="패스워드 입력" required />
+    <button onclick="authenticate()">접근</button>
+    <div id="auth-message" style="color: red;"></div>
 </body>
 </html>
