@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비디오 다운로드 시스템</title>
+    <script>
+        async function downloadVideo(isVimeo) {
+            const downloadButton = document.getElementById(isVimeo ? 'download-button' : 'download-button-2');
+            const videoId = isVimeo ? document.getElementById('video-id').value : '';
+            const videoUrl = isVimeo ? '' : document.getElementById('video-url').value; // 비디오 URL 입력
+            const useReferer = document.getElementById('use-referer').checked;
+            const referer = document.getElementById('video-referer').value;
+            const downloadLinkContainer = document.getElementById('download-link-container');
+
+            // 버튼 비활성화
+            downloadButton.disabled = true;
+            downloadLinkContainer.innerHTML = "다운로드 중... 잠시 기다려 주세요.";
+
+            try {
+                const response = await fetch('http://mc0.kr:5000/download', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        video_id: videoId, 
+                        video_url: videoUrl, 
+                        use_referer: useReferer, 
+                        referer 
+                    }),
+                });
+
+                const result = await response.json();
+
+                if (result.message) {
+                    // 다운로드 성공 메시지와 링크 표시
+                    const downloadLink = `http://localhost:5000/files/${result.file}`;
+                    downloadLinkContainer.innerHTML = `<span style="color: blue;">다운로드 완료!</span> 파일을 받으시려면 <a href="${downloadLink}" target="_blank">여기서 다운로드</a>.`;
+                } else {
+                    downloadLinkContainer.innerHTML = `오류: ${result.error}`;
+                }
+
+            } catch (error) {
+                downloadLinkContainer.innerHTML = "다운로드 실패: " + error.message; // 연결 오류 시 메시지
+            } finally {
+                // 버튼 활성화
+                downloadButton.disabled = false; // 다운로드 후 버튼 활성화
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>비디오 다운로드 시스템</h1>
+
+    <div id="download-section">
+        <h2>Vimeo 비디오 다운로드</h2>
+        <input type="text" id="video-id" placeholder="숫자 ID 입력" />
+        <input type="checkbox" id="use-referer"> 리퍼러 사용
+        <input type="text" id="video-referer" placeholder="리퍼러 URL 입력" />
+        <button id="download-button" onclick="downloadVideo(true)">다운로드 (Vimeo)</button>
+
+        <br><br>
+
+        <h2>다른 사이트 비디오 다운로드</h2>
+        <input type="text" id="video-url" placeholder="비디오 URL 입력" />
+        <input type="checkbox" id="use-referer-2"> 리퍼러 사용
+        <input type="text" id="video-referer-2" placeholder="리퍼러 URL 입력" />
+        <button id="download-button-2" onclick="downloadVideo(false)">다운로드 (다른 사이트)</button>
+
+        <div id="download-link-container" style="margin-top: 20px;"></div> <!-- 다운로드 링크를 표시할 영역 -->
+    </div>
+</body>
+</html>
