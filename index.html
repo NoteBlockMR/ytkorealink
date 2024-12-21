@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도티사이트</title>
-    <!-- Canonical Link -->
     <link rel="canonical" href="https://도티.kr/index.html" />
     <style>
         body {
@@ -19,39 +18,88 @@
         p {
             color: #666;
         }
-        .button-container {
-            display: flex;
-            flex-wrap: wrap; /* 버튼을 여러 줄로 배치 */
-            max-width: 1500px; /* 최대 너비 설정 */
-            margin-bottom: 20px; /* 각 버튼 그룹 사이의 여백 */
+        .search-container {
+            position: relative;
+            margin-top: 20px;
         }
-        button {
-            background-color: #4CAF50; /* Green */
-            color: white;
-            padding: 15px; /* 버튼 패딩 증가 */
-            border: none;
-            border-radius: 4px;
+        .suggestions {
+            border: 1px solid #ccc;
+            max-height: 100px;
+            overflow-y: auto;
+            background-color: #fff;
+            position: absolute;
+            z-index: 1000;
+            width: calc(100% - 20px);
+            display: none; /* 기본적으로 숨김 */
+        }
+        .suggestion-item {
+            padding: 10px;
             cursor: pointer;
-            font-size: 16px;
-            margin: 5px; /* 버튼 간의 간격 */
-            flex: 1 0 calc(20% - 10px); /* 버튼의 너비를 20%로 설정하고 여백 고려 */
-            min-width: 120px; /* 버튼의 최소 너비 지정 */
         }
-        button:hover {
-            background-color: #45a049;
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
         }
     </style>
+    <script>
+        const suggestionsList = [
+            "도티사이트",
+            "도티없는사이트",
+            "도티 알람사이트",
+            "비영리 사이트",
+            "도티님"
+        ];
+
+        function showSuggestions(query) {
+            const suggestionsBox = document.getElementById('suggestions');
+            suggestionsBox.innerHTML = ''; // 이전 제안 초기화
+            if (query) {
+                const filteredSuggestions = suggestionsList.filter(item => item.includes(query));
+                filteredSuggestions.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'suggestion-item';
+                    div.textContent = item;
+                    div.onclick = () => selectSuggestion(item);
+                    suggestionsBox.appendChild(div);
+                });
+                suggestionsBox.style.display = filteredSuggestions.length ? 'block' : 'none';
+            } else {
+                suggestionsBox.style.display = 'none';
+            }
+        }
+
+        function selectSuggestion(suggestion) {
+            document.getElementById('search-query').value = suggestion; // 선택된 제안을 입력 필드에 추가
+            document.getElementById('suggestions').style.display = 'none'; // 제안 목록 숨김
+        }
+
+        function search() {
+            const query = document.getElementById('search-query').value; // 검색어 입력 필드
+            if (query) {
+                const searchUrl = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+                window.open(searchUrl, '_blank'); // 새 탭에서 검색 결과 열기
+            } else {
+                alert('검색어를 입력해 주세요.');
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>도티님은 없지만 도티사이트에 오신걸 환영합니다!</h1>
     <p>개발자가 GPT의 도움을 받아 비영리 및 사비로 개발된 사이트입니다</p>
-	<p>그렇기에 광고가 없는 깔끔한 사이트로 탄생되었습니다</p>
-	<p>도티님에게 해가되지 않게 약속드립니다 [영원히 비영리로 운영할 생각이며 수익도 받지않을 생각입니다]</p>
-	<p>문의는 디스코드 : nodamanote</p>
-	<p>여기로 친추부탁드립니다</p>
-	<p>만약에 도티님이 사이트 삭제해달라고 요청이 올시 삭제하겠습니다</p>
-	<p>저희 사이트는 어떠한 광고나 홍보를 해드리지 않습니다 하지만 유튜브 채널등록은 도와드립니다</p>
-	
+    <p>그렇기에 광고가 없는 깔끔한 사이트로 탄생되었습니다</p>
+    <p>도티님에게 해가되지 않게 약속드립니다 [영원히 비영리로 운영할 생각이며 수익도 받지않을 생각입니다]</p>
+    <p>문의는 디스코드 : nodamanote</p>
+    <p>여기로 친추부탁드립니다</p>
+    <p>만약에 도티님이 사이트 삭제해달라고 요청이 올시 삭제하겠습니다</p>
+    <p>저희 사이트는 어떠한 광고나 홍보를 해드리지 않습니다 하지만 유튜브 채널등록은 도와드립니다</p>
+
+    <h2>검색</h2>
+    <div class="search-container">
+        <input type="text" id="search-query" placeholder="검색어 입력" oninput="showSuggestions(this.value)" />
+        <div id="suggestions" class="suggestions"></div>
+        <button onclick="search()">검색하기</button>
+    </div>
+
     <h3>사이트</h3>
     <p>사이트를 쉽게 접근할수있습니다</p>
     
@@ -74,7 +122,7 @@
     <h3>유튜브 영상</h3>
     <p>아래는 유튜브 영상입니다</p>
     <div class="video-container">
-        <iframe width="720" height="405" src="https://www.youtube.com/embed/-oa84EcNzSk" frameborder="0" allowfullscreen></iframe>
+        <iframe width="720" height="405" src="https://www.youtube.com/embed/KaSK09sot0A" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <h3>숙박 및 여행 사이트</h3>
