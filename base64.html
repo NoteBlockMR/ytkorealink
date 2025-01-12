@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BASE64 인코더/디코더</title>
+    <title>BASE64 인코더/디코더 및 실시간 HTML 미리보기</title>
     <script>
         function encodeBase64() {
             const input = document.getElementById('encodeInput').value;
             const encoded = btoa(input);
             document.getElementById('encodedOutput').value = encoded;
+            updatePreview(input);
         }
 
         function decodeBase64() {
@@ -16,16 +17,28 @@
             const decoded = atob(input);
             document.getElementById('decodedOutput').value = decoded;
         }
+
+        function updatePreview(htmlContent) {
+            const previewArea = document.getElementById('htmlPreview');
+            previewArea.innerHTML = htmlContent;
+        }
     </script>
     <style>
         textarea {
             width: 100%; /* 너비를 100%로 설정 */
             max-width: 800px; /* 최대 너비를 800px로 설정 */
         }
+        #htmlPreview {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            max-width: 800px;
+            background-color: #f9f9f9;
+        }
     </style>
 </head>
 <body>
-    <h1>BASE64 인코더/디코더</h1>
+    <h1>BASE64 인코더/디코더 및 실시간 HTML 미리보기</h1>
     
     <h2>인코딩</h2>
     <textarea id="encodeInput" rows="6" placeholder="인코딩할 텍스트를 입력하세요" oninput="encodeBase64()"></textarea><br>
@@ -36,5 +49,8 @@
     <textarea id="decodeInput" rows="6" placeholder="디코딩할 BASE64 코드를 입력하세요" oninput="decodeBase64()"></textarea><br>
     <h2>디코딩 결과</h2>
     <textarea id="decodedOutput" rows="6" placeholder="디코딩 결과가 여기에 표시됩니다" readonly></textarea>
+    
+    <h2>실시간 HTML 미리보기</h2>
+    <div id="htmlPreview">여기에 HTML 미리보기가 표시됩니다.</div>
 </body>
 </html>
