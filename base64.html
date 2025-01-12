@@ -31,11 +31,17 @@
             }
         }
     </script>
+    <style>
+        textarea {
+            width: 100%; /* 너비를 100%로 설정 */
+            max-width: 800px; /* 최대 너비를 800px로 설정 */
+        }
+    </style>
 </head>
 <body>
     <h1>BASE64 인코더/디코더</h1>
-    <textarea id="inputText" rows="4" cols="50" placeholder="여기에 텍스트 또는 BASE64 코드를 입력하세요" oninput="handleInput()"></textarea><br>
+    <textarea id="inputText" rows="6" placeholder="여기에 텍스트 또는 BASE64 코드를 입력하세요" oninput="handleInput()"></textarea><br>
     <h2>결과</h2>
-    <textarea id="outputText" rows="4" cols="50" placeholder="결과가 여기에 표시됩니다" readonly></textarea>
+    <textarea id="outputText" rows="6" placeholder="결과가 여기에 표시됩니다" readonly></textarea>
 </body>
 </html>
