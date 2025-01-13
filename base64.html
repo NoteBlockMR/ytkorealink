@@ -7,14 +7,16 @@
     <script>
         function encodeBase64() {
             const input = document.getElementById('encodeInput').value;
-            const encoded = btoa(input);
+            const bytes = new TextEncoder().encode(input);
+            const encoded = btoa(String.fromCharCode(...bytes));
             document.getElementById('encodedOutput').value = encoded;
             updatePreview(input);
         }
 
         function decodeBase64() {
             const input = document.getElementById('decodeInput').value;
-            const decoded = atob(input);
+            const bytes = new Uint8Array(atob(input).split('').map(c => c.charCodeAt(0)));
+            const decoded = new TextDecoder().decode(bytes);
             document.getElementById('decodedOutput').value = decoded;
         }
 
