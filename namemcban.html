@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>마인크래프트 유저 목록</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>마인크래프트 유저 정보</h1>
+        
+        <!-- 검색 영역 -->
+        <div class="search-area">
+            <input type="text" id="searchInput" placeholder="UUID 검색...">
+            <button onclick="searchUser()">검색</button>
+        </div>
+        <div id="searchResult"></div>
+
+        <!-- 전체 유저 테이블 -->
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th>닉네임</th>
+                    <th>UUID</th>
+                    <th>설명</th>
+                    <th>유형</th>
+                </tr>
+            </thead>
+            <tbody id="userList"></tbody>
+        </table>
+    </div>
+
+    <script>
+        // 데이터 로드 함수
+        async function loadData() {
+            try {
+                const response = await fetch('data.txt');
+                const data = await response.text();
+                const users = data.split('\n')
+                    .filter(line => line.trim() !== '')
+                    .map(line => {
+                        const [nickname, uuid, description, type] = line.split(',');
+                        return { nickname, uuid, description, type };
+                    });
+                
+                renderTable(users);
+                window.userData = users; // 전역 변수로 저장
+            } catch (error) {
+                console.error('데이터 불러오기 실패:', error);
+            }
+        }
+
+        // 테이블 렌더링 함수
+        function renderTable(users) {
+            const tbody = document.getElementById('userList');
+            tbody.innerHTML = users.map(user => `
+                <tr class="${user.type === '매너유저' ? 'good' : 'bad'}">
+                    <td>${user.nickname}</td>
+                    <td>${user.uuid}</td>
+                    <td>${user.description}</td>
+                    <td>${user.type}</td>
+                </tr>
+            `).join('');
+        }
+
+        // 유저 검색 함수
+        function searchUser() {
+            const input = document.getElementById('searchInput').value.trim();
+            const result = window.userData.find(user => user.uuid === input);
+            const resultDiv = document.getElementById('searchResult');
+            
+            if(result) {
+                resultDiv.innerHTML = `
+                    <div class="result-box ${result.type === '매너유저' ? 'good' : 'bad'}">
+                        <h3>검색 결과</h3>
+                        <p>닉네임: ${result.nickname}</p>
+                        <p>UUID: ${result.uuid}</p>
+                        <p>설명: ${result.description}</p>
+                        <p>유형: ${result.type}</p>
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = '<div class="result-box">검색 결과가 없습니다</div>';
+            }
+        }
+
+        // 페이지 로드 시 데이터 불러오기
+        window.onload = loadData;
+    </script>
+</body>
+</html>
