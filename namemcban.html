@@ -8,6 +8,22 @@
 <body>
     <div class="container">
         <h1>마인크래프트 유저 정보</h1>
+    
+        <!-- API 검색 섹션 -->
+        <div class="api-search-section">
+            <h2>실시간 유저 검색</h2>
+            <div class="search-area">
+                <input type="text" id="mcUsername" placeholder="마인크래프트 닉네임 입력...">
+                <button onclick="fetchMinecraftUser()">검색</button>
+            </div>
+            <div id="apiResult"></div>
+        </div>
+	    
+        <!-- 기존 로컬 검색 섹션 -->
+        <div class="local-search-section">
+            <h2>로컬 유저 검색</h2>
+            <!-- 기존 검색 영역 유지 -->
+        </div>
         
         <!-- 검색 영역 -->
         <div class="search-area">
@@ -31,6 +47,44 @@
     </div>
 
     <script>
+	
+	async function fetchMinecraftUser() {
+        const username = document.getElementById('mcUsername').value.trim();
+        const resultDiv = document.getElementById('apiResult');
+        resultDiv.innerHTML = '<div class="result-box">조회 중...</div>';
+    
+        try {
+            // 1. 닉네임 -> UUID 변환
+            const uuidResponse = await fetch(`https://api.mojang.com/users/profiles/minecraft/${username}`);
+            if (!uuidResponse.ok) throw new Error('유저를 찾을 수 없음');
+            const { id: uuid, name } = await uuidResponse.json();
+    
+            // 2. UUID로 프로필 정보 조회
+            const profileResponse = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`);
+            const profileData = await profileResponse.json();
+            
+            // 3. 스킨 정보 추출
+            const skinData = JSON.parse(atob(profileData.properties[0].value));
+            const skinImg = `https://mc-heads.net/body/${uuid}/100.png`;
+    
+            resultDiv.innerHTML = `
+                <div class="result-box">
+                    <h3>${name}의 정보</h3>
+                    <div class="profile-container">
+                        <img src="${skinImg}" alt="스킨" class="skin-image">
+                        <div class="profile-info">
+                            <p>닉네임: ${name}</p>
+                            <p>UUID: ${uuid}</p>
+                            <p>계정 생성일: ${new Date(profileData.timestamp).toLocaleDateString()}</p>
+                            <p>스킨: <a href="${skinData.textures.SKIN.url}" target="_blank">원본 보기</a></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } catch (error) {
+            resultDiv.innerHTML = `<div class="result-box bad">오류: ${error.message}</div>`;
+        }
+    }
         // 데이터 로드 함수
         async function loadData() {
             try {
