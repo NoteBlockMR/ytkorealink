@@ -97,12 +97,18 @@ tr:hover {
 .skin-image {
     border: 2px solid #ddd;
     border-radius: 5px;
-    background: #fff;
+    background: #f8f9fa;
     padding: 5px;
+    min-height: 100px;
+    min-width: 50px;
 }
 
-.profile-info p {
-    margin: 8px 0;
+.profile-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+.profile-info a:hover {
+    text-decoration: underline;
 }
 
 .result-box h3 {
