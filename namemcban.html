@@ -47,42 +47,65 @@
     </div>
 
     <script>
-	
-	async function fetchMinecraftUser() {
+    async function fetchMinecraftUser() {
         const username = document.getElementById('mcUsername').value.trim();
         const resultDiv = document.getElementById('apiResult');
         resultDiv.innerHTML = '<div class="result-box">조회 중...</div>';
     
+        if(!username) {
+            resultDiv.innerHTML = '<div class="result-box bad">닉네임을 입력해주세요</div>';
+            return;
+        }
+    
         try {
-            // 1. 닉네임 -> UUID 변환
-            const uuidResponse = await fetch(`https://api.mojang.com/users/profiles/minecraft/${username}`);
-            if (!uuidResponse.ok) throw new Error('유저를 찾을 수 없음');
+            // CORS 프록시 서버 사용
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            const mojangUrl = `https://api.mojang.com/users/profiles/minecraft/${encodeURIComponent(username)}`;
+            
+            // 1. 닉네임 -> UUID 변환 (타임아웃 추가)
+            const uuidResponse = await Promise.race([
+                fetch(proxyUrl + mojangUrl),
+                new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('요청 시간 초과')), 5000)
+            ]);
+            
+            if (!uuidResponse.ok) throw new Error('유저를 찾을 수 없음 (404)');
             const { id: uuid, name } = await uuidResponse.json();
     
-            // 2. UUID로 프로필 정보 조회
-            const profileResponse = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`);
-            const profileData = await profileResponse.json();
-            
-            // 3. 스킨 정보 추출
-            const skinData = JSON.parse(atob(profileData.properties[0].value));
+            // 2. 스킨 정보 조회 (mc-heads API 사용)
             const skinImg = `https://mc-heads.net/body/${uuid}/100.png`;
+            const skinHistory = `https://mc-heads.net/skin/${uuid}`;
     
             resultDiv.innerHTML = `
                 <div class="result-box">
                     <h3>${name}의 정보</h3>
                     <div class="profile-container">
-                        <img src="${skinImg}" alt="스킨" class="skin-image">
+                        <img src="${skinImg}" alt="스킨" class="skin-image"
+                             onerror="this.src='https://mc-heads.net/avatar/steve/100.png'">
                         <div class="profile-info">
                             <p>닉네임: ${name}</p>
                             <p>UUID: ${uuid}</p>
-                            <p>계정 생성일: ${new Date(profileData.timestamp).toLocaleDateString()}</p>
-                            <p>스킨: <a href="${skinData.textures.SKIN.url}" target="_blank">원본 보기</a></p>
+                            <p>스킨 히스토리: <a href="${skinHistory}" target="_blank">보기</a></p>
+                            <p>최근 활동: <span id="lastSeen">로드 중...</span></p>
                         </div>
                     </div>
                 </div>
             `;
+    
+            // 3. 추가 정보 (별도 API 사용)
+            fetch(`https://api.ashcon.app/mojang/v2/user/${name}`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('lastSeen').textContent = 
+                        new Date(data.last_seen).toLocaleString();
+                })
+                .catch(() => {/* 추가 정보 실패 시 무시 */});
+    
         } catch (error) {
-            resultDiv.innerHTML = `<div class="result-box bad">오류: ${error.message}</div>`;
+            let message = error.message;
+            if(message.includes('404')) message = '존재하지 않는 계정입니다';
+            if(message.includes('시간 초과')) message = '서버 응답 지연 (잠시 후 재시도)';
+            resultDiv.innerHTML = `<div class="result-box bad">오류: ${message}</div>`;
         }
     }
         // 데이터 로드 함수
