@@ -75,3 +75,37 @@ tr:hover {
 .bad {
     background-color: #f8d7da !important;
 }
+
+/* style.css 추가 */
+.api-search-section {
+    margin-bottom: 40px;
+    padding: 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+}
+
+.local-search-section {
+    margin-top: 40px;
+}
+
+.profile-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.skin-image {
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    background: #fff;
+    padding: 5px;
+}
+
+.profile-info p {
+    margin: 8px 0;
+}
+
+.result-box h3 {
+    margin-top: 0;
+    color: #333;
+}
