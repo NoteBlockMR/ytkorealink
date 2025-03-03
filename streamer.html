@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streamer Spotlight</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 기본 설정 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
+            color: white;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 스트리머 그리드 */
+        .streamer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        /* 스트리머 카드 */
+        .streamer-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .streamer-card:hover {
+            transform: translateY(-10px) perspective(1000px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .profile-header {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .profile-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            transition: transform 0.3s ease;
+            /* JPG/PNG 최적화 */
+            image-rendering: -webkit-optimize-contrast;
+            backface-visibility: hidden;
+        }
+
+        .profile-img {
+            /* PNG 투명도 지원 */
+            background: rgba(255, 255, 255, 0.1);
+            object-fit: cover;
+        }
+
+        .streamer-card:hover .profile-bg {
+            transform: scale(1.1);
+        }
+
+        .streamer-info {
+            padding: 70px 20px 30px;
+            text-align: center;
+        }
+
+        .streamer-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .platform {
+            color: #ff6b6b;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .description {
+            color: #ccc;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-link {
+            color: white;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .streamer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 마인크래프트 컨텐츠 전문 스트리머 🔥</h1>
+        
+        <div class="streamer-grid">
+            <!-- 스트리머 카드 1 -->
+            <div class="streamer-card">
+                <div class="profile-header">
+                    <img src="wallet.jpg" class="profile-bg" alt="스트리머1 배경 이미지">
+                </div>
+                <div class="streamer-info">
+                    <h2 class="streamer-name">월렛</h2>
+                    <div class="platform">🎮 치지직</div>
+                    <div class="stats">
+                        <div class="stat-item">📺 팔로워 600명대</div>
+                        <div class="stat-item">❤️ 평균시청 15~25명</div>
+                    </div>
+                    <p class="description">마인크래프트 게임 전문 스트리머! 화려한 플레이와 유머 넘치는 방송으로 많은 시청자를 보유하고있습니다</p>
+                    <div class="social-links">
+                        <a href="https://discord.gg/WH4BWZH4Qc" class="social-link"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+</body>
+</html>
